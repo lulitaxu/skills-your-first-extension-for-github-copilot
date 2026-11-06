@@ -1,7 +1,7 @@
 {
   "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
   "postCreateCommand": "cd ghc-extension-js && npm install",
-  "postStartCommand": "gh cs ports visibility 3000:public -c $CODESPACE_NAME; cd ghc-extension-js && (nohup npm start > /tmp/ext-server.log 2>&1 & echo extension-server-start-issued)",
+  "postStartCommand": "gh cs ports visibility 3000:public -c $CODESPACE_NAME; cd ghc-extension-js && (setsid nohup node index.js > /tmp/ext-server.log 2>&1 < /dev/null &); sleep 3; curl -s -o /dev/null -w 'ext-local-check: %{http_code}' http://localhost:3000/ || true",
 
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {}
